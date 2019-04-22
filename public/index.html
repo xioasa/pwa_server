@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>pwa_server</title>
+  <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+  pwa_server
+  <img src="http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg" alt="">
+  <button onclick="get_()">get</button>
+  <button onclick="post_()">post</button>
+</body>
+<script src="./index.js"></script>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+  // 判断是否支持pwa
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('./sw.js', {scope: '/' })
+      .then((registration) => {
+        console.log('注册成功');
+      })
+      .catch((err) => {
+        console.log('注册失败');
+      })
+    });
+  }
+
+  function get_() {
+    $.ajax({
+      type: 'GET',
+      url: 'http://127.0.0.1:3000/list',
+      data: {name: 'xiaosa'},
+      success: function(data) {
+        console.log(data);
+        $('.get').text(data);
+      }
+    });
+  };
+
+  function post_() {
+    $.ajax({
+      type: 'POST',
+      url: 'http://127.0.0.1:3000/post',
+      data: {name: 'xiaosa'},
+      success: function(data) {
+        console.log(data);
+        $('.post').text(data);
+      }
+    });
+  };
+
+</script>
+</html>
